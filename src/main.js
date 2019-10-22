@@ -1,8 +1,26 @@
 import Vue from 'vue'
 import App from './App.vue'
+import router from '@/router/router.js'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+import '@/styles/index.less'
+
+Vue.use(ElementUI)
+
+// 导航守卫
+router.beforeEach((to, from, next) => {
+  // console.log(to)
+  var token = localStorage.getItem('itcast_manager')
+  if (token || to.path === '/login') {
+    next()
+  } else {
+    next({ name: 'login' })
+  }
+})
 
 Vue.config.productionTip = false
 
 new Vue({
+  router,
   render: h => h(App)
 }).$mount('#app')
